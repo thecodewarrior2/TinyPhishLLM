@@ -1,0 +1,6 @@
+# This repository holds only the released model (CLAUDE.md). The training lives in
+# TinyPhishLLM_Private_Training: a training/ folder here is never committed.
+training/
+__pycache__/
+*.pyc
+node_modules/
