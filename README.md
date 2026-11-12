@@ -17,7 +17,7 @@ mailbox.
 | Program | Where the model goes | How it runs it |
 |---|---|---|
 | **S.P.R.U.C.E+ browser extension** (`spruce-browser-extension`, branch `llm_testing`) | `models/phish-tiny/` (`model.bin`, `model.json`, `vocab.txt`, `MODEL_CARD.md`) | plain JavaScript (`ai.js`), on the user's computer |
-| **S.P.R.U.C.E+ Mail Protection** (`google_service_testing`, released to `google_service_main`) | `vendor/spruce/models/phish-tiny/` (`model.onnx`, `model.json`, `vocab.txt`, `MODEL_CARD.md`) | ONNX Runtime, in the district's own Google Cloud project |
+| **S.P.R.U.C.E Mail Protection Service** (`google_service_testing`, released to `google_service_main`) | `vendor/spruce/models/phish-tiny/` (`model.onnx`, `model.json`, `vocab.txt`, `MODEL_CARD.md`) | ONNX Runtime, in the district's own Google Cloud project |
 
 Each program **pins one commit of this repository and each file's SHA-256** (`models/phish-tiny/SOURCE.json`
 in the extension; `vendor/spruce/VENDOR.json`, `modelSource`, in the service), written by its

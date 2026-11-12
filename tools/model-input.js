@@ -3,7 +3,7 @@
 // THIS IS PART OF THE MODEL. Training (make-dataset.js) builds every training email with it, and every
 // program that runs the model must build exactly the same text, or the model reads something it was
 // never trained on. The consumers keep their own copy of these lines (the S.P.R.U.C.E+ extension's
-// ai.js and shared.js; S.P.R.U.C.E+ Mail Protection's vendor/spruce/), and their tests compare it with
+// ai.js and shared.js; S.P.R.U.C.E Mail Protection Service's vendor/spruce/), and their tests compare it with
 // model/reference/input-format.jsonl, which this file produces (node training/check.js --write).
 // Change the format here first, retrain, regenerate the reference, then sync the consumers.
 // Its home is TinyPhishLLM_Private_Training (private), training/model-input.js; training/publish.js copies it,

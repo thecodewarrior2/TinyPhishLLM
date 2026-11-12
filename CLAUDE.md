@@ -1,7 +1,7 @@
 # Rules for AI assistants working in this repository
 
 TinyPhishLLM is the **public** home of the released **phish-tiny** model, which the S.P.R.U.C.E+ browser
-extension and S.P.R.U.C.E+ Mail Protection both download from here. It holds only the model, its input
+extension and S.P.R.U.C.E Mail Protection Service both download from here. It holds only the model, its input
 format's code and made-up references. Everything used to make the model (training scripts, examples,
 check sets, regression cases) is in **TinyPhishLLM_Private_Training**, which is private. README.md
 explains the layout.
