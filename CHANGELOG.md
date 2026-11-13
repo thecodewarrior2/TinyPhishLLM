@@ -1,5 +1,34 @@
 # Changelog
 
+## phish-tiny 0.16.0: input format 2, the sender checks' findings in context
+
+**A program syncing this model must switch its copy of the input format to version 2 in the same change**
+(`modelInputParts` in its `ai.js`: the lines of `tools/model-input.js`; `model.json` says `"inputFormat": 2`).
+`tools/model-input.js` builds format 1 with `modelInputText(facts, 1)`, for a program still running 0.13.0.
+
+- **Input format 2** adds, each only when it applies: `identity:` (the brand or agency the sender's name claims
+  and whether the sending domain is theirs, not known to be, or a personal mailbox; a domain imitating a
+  well-known brand; a colleague's name on an outside address), failing SPF/DKIM in `sender check:`,
+  `reply-to:` (domains that aren't the sender's), `attachments:` (the files' kinds, never their names), and a
+  subject or text in capitals. These are what each program's own checks already find (`aiSenderIdentity`,
+  `aiReplyToDomains`, `aiAttachmentFacts` in its `shared.js`); the model was trained on exactly what they give.
+- **References:** `input-format.jsonl` has 94 made-up cases (12 new ones for format 2); `ai-vectors.json` and
+  `model-reference.json` are for 0.16.0.
+- Trained in TinyPhishLLM_Private_Training from 0.14.0 (which was never published here), six runs averaged.
+
+Scores against 0.14.0 on the same held-out sets (never trained on; lower is better):
+
+| | 0.14.0 @50% | 0.16.0 @50% | 0.14.0 @90% | 0.16.0 @90% | 0.14.0 @95% | 0.16.0 @95% |
+|---|---|---|---|---|---|---|
+| Published phishing missed (681 held-out variants) | 19 | **13** | 23 | **19** | 25 | **24** |
+| Published genuine called phishing (705 held-out variants) | 33 | **20** | 17 | **10** | 16 | **10** |
+| Genuine look-alikes called phishing (24) | 3 | **1** | 1 | **0** | 1 | **0** |
+| Hand-written wrong (33) | 0 | 0 | 1 | **0** | 1 | **0** |
+| Regression cases wrong (15) | 0 | 0 | 0 | 0 | 0 | 0 |
+
+Not measured here: a district's own held-out emails. Score 0.16.0 on them (S.P.R.U.C.E Mail Protection
+Service's `tools/score-examples.js`) before it reaches a program; committing it here releases nothing.
+
 ## phish-tiny 0.13.0: the repository starts
 
 The model has its own repository, so the S.P.R.U.C.E+ extension and S.P.R.U.C.E+ Mail Protection use

@@ -5,8 +5,12 @@ reads an email and says how likely it is phishing. This repository is where the 
 get it: the released model, its input format, and the made-up reference answers the programs test
 themselves against. There is one model, trained in one place.
 
-**Current model: phish-tiny 0.13.0** (trained 2026-11-11). Its scores are in
-`model/phish-tiny/MODEL_CARD.md`.
+**Current model: phish-tiny 0.16.0** (trained 2026-11-13). It reads **input format 2** (`"inputFormat": 2` in
+`model.json`): besides the email itself, what the program's own sender checks found (who the sender's name
+claims to be and whether the domain is theirs, Reply-To domains that aren't the sender's, the attached files'
+kinds, failing SPF/DKIM) and text in capitals. A program must build exactly that text for it
+(`tools/model-input.js`), so it switches its copy of the format to version 2 when it syncs this model. Its
+scores are in `model/phish-tiny/MODEL_CARD.md` and `CHANGELOG.md`.
 
 The training (scripts, published examples, check sets) is in a separate **private** repository,
 TinyPhishLLM_Private_Training. Nothing used to train the model is here, and nothing here comes from anyone's
@@ -34,7 +38,7 @@ Nothing is downloaded while the programs run: the model is inside each built pac
 | Path | What |
 |---|---|
 | `model/phish-tiny/` | The model: `model.bin` (8-bit weights), `model.onnx` (the same network for ONNX Runtime), `model.json` (manifest, metrics), `vocab.txt`, `MODEL_CARD.md` |
-| `model/reference/input-format.jsonl` | 82 made-up emails' facts and the exact text the model reads for each: every program's copy of the input format is tested against it |
+| `model/reference/input-format.jsonl` | 94 made-up emails' facts and the exact text the model reads for each: every program's copy of the input format is tested against it |
 | `model/reference/ai-vectors.json` | Token ids and outputs for made-up texts: the JavaScript runtime must match them |
 | `model/reference/model-reference.json` | 400 made-up inputs and the model's answers: the ONNX runtime must match them |
 | `tools/model-input.js` | The input format: the text the model reads, built from an email's facts (the training repository's own copy, published unchanged) |

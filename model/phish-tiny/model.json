@@ -1,19 +1,20 @@
 {
  "name": "phish-tiny",
- "version": "0.13.0",
+ "version": "0.16.0",
+ "inputFormat": 2,
  "base": "prajjwal1/bert-tiny",
  "labels": [
   "genuine",
   "phishing"
  ],
- "trained": "2026-11-11",
+ "trained": "2026-11-13",
  "metrics": {
   "synthetic_test": {
-   "accuracy": 0.9993,
-   "precision": 1.0,
-   "recall": 0.9987,
-   "false_positives": 0,
-   "false_negatives": 1,
+   "accuracy": 0.9827,
+   "precision": 0.9801,
+   "recall": 0.9853,
+   "false_positives": 15,
+   "false_negatives": 11,
    "n": 1500
   },
   "hand_written": {
@@ -25,28 +26,28 @@
    "n": 33
   },
   "real_world_heldout": {
-   "accuracy": 0.9867,
+   "accuracy": 0.9809,
    "precision": 1.0,
-   "recall": 0.9867,
+   "recall": 0.9809,
    "false_positives": 0,
-   "false_negatives": 8,
-   "n": 603
+   "false_negatives": 13,
+   "n": 681
   },
   "genuine_lookalikes": {
-   "accuracy": 0.8333,
+   "accuracy": 0.9167,
    "precision": 0.0,
    "recall": 0.0,
-   "false_positives": 4,
+   "false_positives": 2,
    "false_negatives": 0,
    "n": 24
   },
   "real_world_genuine_heldout": {
-   "accuracy": 0.9567,
+   "accuracy": 0.9716,
    "precision": 0.0,
    "recall": 0.0,
-   "false_positives": 27,
+   "false_positives": 20,
    "false_negatives": 0,
-   "n": 624
+   "n": 705
   }
  },
  "config": {
