@@ -1,16 +1,16 @@
 # TinyPhishLLM: the phish-tiny model
 
-**phish-tiny** is a small language model (a BERT-tiny classifier, 4.4 million parameters, 4.5 MB) that
+**phish-tiny** is a small language model (an ELECTRA-small classifier since 0.18.0, 13.5 million parameters, 14 MB) that
 reads an email and says how likely it is phishing. This repository is where the programs that use it
 get it: the released model, its input format, and the made-up reference answers the programs test
 themselves against. There is one model, trained in one place.
 
-**Current model: phish-tiny 0.16.0** (trained 2026-11-13). It reads **input format 2** (`"inputFormat": 2` in
-`model.json`): besides the email itself, what the program's own sender checks found (who the sender's name
-claims to be and whether the domain is theirs, Reply-To domains that aren't the sender's, the attached files'
-kinds, failing SPF/DKIM) and text in capitals. A program must build exactly that text for it
-(`tools/model-input.js`), so it switches its copy of the format to version 2 when it syncs this model. Its
-scores are in `model/phish-tiny/MODEL_CARD.md` and `CHANGELOG.md`.
+**Current model: phish-tiny 0.18.0**, an **ELECTRA-small** classifier (12 layers, 13.5 million parameters, 14 MB at
+8 bits; `"arch": "electra"` in `model.json`), reading **input format 2** as 0.16.0 did. A program running it must
+run that architecture (the embeddings' projection to 256 and a classification head on the first token, in place of
+BERT's pooler; `model.onnx` already is that network). Its scores are in `model/phish-tiny/MODEL_CARD.md` and
+`CHANGELOG.md`. **`model/phish-tiny-old/`** is the BERT-tiny model phish-tiny was until 0.17.0, kept for reference
+and **not used** by any program.
 
 The training (scripts, published examples, check sets) is in a separate **private** repository,
 TinyPhishLLM_Private_Training. Nothing used to train the model is here, and nothing here comes from anyone's

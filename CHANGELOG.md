@@ -1,5 +1,33 @@
 # Changelog
 
+## phish-tiny 0.18.0: ELECTRA-small; the BERT-tiny model kept as phish-tiny-old, unused
+
+**phish-tiny is now an ELECTRA-small classifier** (`google/electra-small-discriminator`, Apache 2.0: 12 layers, 256 wide,
+embeddings 128 wide and projected; 13.5 million parameters; `model.bin` 13.9 MB in 8 bits, `model.onnx` 14 MB).
+Same input format (2) and vocabulary as 0.16.0. **A program must run the new architecture** (`model.json`
+`"arch": "electra"`, `config.embedding` 128): after the embeddings' LayerNorm, `electra.embeddings_project`; at the
+end, on the first token, `classifier.dense`, GELU (erf), `classifier.out_proj`. The encoder layers are as before,
+under `electra.` instead of `bert.`. `model.onnx` is the whole network; ONNX Runtime at its "basic" optimization
+level matches `model-reference.json` to 3e-6 ("all" fuses kernels and drifts by up to 0.007).
+
+**`model/phish-tiny-old/`** is the BERT-tiny model that was phish-tiny until 0.17.0 (0.17.0, never published here
+before), renamed and **not used** by any program.
+
+Scores against 0.17.0 on the same held-out sets (never trained on; lower is better):
+
+| | 0.17.0 @50% | 0.18.0 @50% | 0.17.0 @95% | 0.18.0 @95% |
+|---|---|---|---|---|
+| Published phishing missed (681 held-out variants) | 14 | **8** | 18 | **14** |
+| Published genuine called phishing (705 held-out variants) | 20 | **5** | 14 | **4** |
+| Genuine look-alikes called phishing (24) | 1 | 1 | 1 | 1 |
+| Hand-written wrong (33) | 0 | 0 | 0 | 0 |
+| Regression cases wrong (16) | 1 | **0** | 1 | **0** |
+
+It also recognizes a document shared through Google Docs, OneDrive, DocuSign, Dropbox or Adobe by an account at
+another organization naming the reader's leaders (14 of 14 such check cases; 0.17.0: 7). One training run, not an
+average of six; a district's own examples are not in it. Committing it here releases nothing: a program uses it only
+in a version the maintainer has tried and approved.
+
 ## phish-tiny 0.16.0: input format 2, the sender checks' findings in context
 
 **A program syncing this model must switch its copy of the input format to version 2 in the same change**

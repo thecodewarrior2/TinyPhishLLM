@@ -1,14 +1,11 @@
-# phish-tiny 0.16.0
+# phish-tiny 0.18.0
 
-A BERT-tiny classifier (prajjwal1/bert-tiny, 2 layers, 4.4 million parameters) fine-tuned to tell phishing from
+An ELECTRA-small classifier (google/electra-small-discriminator, 12 layers, 13.5 million parameters) fine-tuned to tell phishing from
 genuine email, from the facts the programs collect (subject, sender name and domain, DMARC result,
-links and their checks) and the email's text with addresses and numbers redacted. It reads input format 2:
-also what the programs' sender checks found (who the sender's name claims to be and whether the domain is
-theirs, Reply-To domains that aren't the sender's, the attached files' kinds, failing SPF/DKIM) and text in
-capitals; a program must build that format's text for it (`model-input.js`, `model.json` `inputFormat`). Trained 2026-11-13
-by TinyPhishLLM's `training/train.py` with 3 epochs at learning rate 5e-05; the weights of 6 runs (seeds 7, 8, 9, 10, 11, 12) averaged into one model; weights stored in 8 bits. Started from phish-tiny 0.14.0 (not from prajjwal1/bert-tiny), which stayed the teacher: 0.25 of the loss kept the answers close to its own (temperature 2), so what it learned from examples that are not in this training set is kept.
+links and their checks) and the email's text with addresses and numbers redacted. It reads input format 2: also what the programs' sender checks found (who the sender's name claims to be and whether the domain is theirs, Reply-To domains that aren't the sender's, the attached files' kinds, failing SPF/DKIM) and text in capitals; a program must build that format's text for it (`model-input.js`, `model.json` `inputFormat`). Trained 2026-11-14
+by TinyPhishLLM's `training/teacher.py` with 3 epochs at learning rate 0.0001; weights stored in 8 bits.
 
-**Training data:** 19124 emails from `training/make-dataset.js`: synthetic ones from its templates, and variants
+**Training data:** 20797 emails from `training/make-dataset.js`: synthetic ones from its templates, and variants
 of two thirds of `training/real-world.jsonl` (phishing and email scams that universities, school groups,
 the FTC, FBI, IRS and others published as warnings, including spear phishing and business email
 compromise; paraphrased, with made-up names; no real email, personal data or bank details), plus any
@@ -18,16 +15,16 @@ examples in `training/data/extra/`.
 
 | Set | Accuracy | Precision | Recall | False alarms | Missed |
 |---|---|---|---|---|---|
-| Synthetic test (1500, same templates, other seed) | 0.9827 | 0.9801 | 0.9853 | 15 | 11 |
+| Synthetic test (1500, same templates, other seed) | 0.9973 | 0.9987 | 0.996 | 1 | 3 |
 | Hand-written (33, not from the templates) | 1.0 | 1.0 | 1.0 | 0 | 0 |
-| Real-world, held out (681: 3 variants of each of 227 published examples never trained on; all phishing) | 0.9809 | - | 0.9809 | - | 13 |
-| Genuine look-alikes (24, hand-written, never trained on; all genuine) | 0.9167 | - | - | 2 | - |
-| Real-world genuine, held out (705: 3 variants of each of 235 published genuine emails never trained on) | 0.9716 | - | - | 20 | - |
+| Real-world, held out (681: 3 variants of each of 227 published examples never trained on; all phishing) | 0.9883 | - | 0.9883 | - | 8 |
+| Genuine look-alikes (24, hand-written, never trained on; all genuine) | 0.9583 | - | - | 1 | - |
+| Real-world genuine, held out (705: 3 variants of each of 235 published genuine emails never trained on) | 0.9929 | - | - | 5 | - |
 
 Hand-written emails it got wrong: none.
-Held-out real-world examples it missed (any variant): real:bu-defender-renewal-callback, real:checkpoint-teams-guest-invite-autopay-callback, real:haynie-comptroller-transferxl-file, real:kmox-pta-new-officer-gift-card-donation, real:nsta-motus-off-cycle-registration-update, real:threatdown-microsoft-unusual-signin, real:uci-failed-grades-k12-account, real:uci-fall-enrollment-background-check, real:uvm-2025-pay-dates-view-here.
-Genuine look-alikes it called phishing: look:docusign-lease (0.732), look:pta-qr-rsvp (0.866).
-Held-out published genuine emails it called phishing (any variant): real:brown-lab-results-portal-genuine, real:brown-uhcsr-1095b-ssn-genuine, real:docusign-envelope-security-code-genuine, real:gitlab-access-tokens-expiring-genuine, real:mailscanner-virus-detected-sender-warning-genuine, real:microsoft-entra-users-at-risk-genuine, real:ms-support-case-update-genuine, real:parentsquare-password-reset-12-characters-genuine, real:peba-moneyplus-msa-debit-card-genuine, real:scoir-register-account-invite-genuine, real:securly-weekly-activity-report-genuine, real:snopes-epiqpay-settlement-payment-notice-genuine, real:ucpath-sms-direct-deposit-confirm-genuine, real:uga-dean-update-phishing-simulation-genuine.
+Held-out real-world examples it missed (any variant): real:district-student-part-time-job, real:flbar-president-charity-icloud, real:haynie-comptroller-transferxl-file, real:mrsc-hacked-vendor-asks-county-banking, real:nsta-motus-off-cycle-registration-update, real:susu-free-items-pay-shipping, real:threatdown-microsoft-unusual-signin.
+Genuine look-alikes it called phishing: look:docusign-lease (0.948).
+Held-out published genuine emails it called phishing (any variant): real:clemson-canvas-vendor-incident-genuine, real:parentsquare-password-reset-12-characters-genuine, real:rge-honey-paypal-rewards-points-genuine.
 
 **Limits:** the synthetic score mostly measures how well it learned the templates. The hand-written
 score is the better check, but it is small, and it is OPTIMISTIC: while building this experiment the

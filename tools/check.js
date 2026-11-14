@@ -56,7 +56,8 @@ const madeUp = new Set(ref.map(r => r.text));
 say(vec.every(v => madeUp.has(v.text) || v.text === UNICODE_SAMPLE), 'ai-vectors.json has only made-up texts');
 let tracked = [];
 try { tracked = execFileSync('git', ['ls-files'], { cwd: ROOT }).toString().split('\n').filter(Boolean); } catch (e) { /* not a git checkout */ }
-const notHere = tracked.filter(f => !/^(model\/phish-tiny\/|model\/reference\/(model-reference\.json|ai-vectors\.json|input-format\.jsonl)$|tools\/(check|model-input)\.js$|(README|CLAUDE|CHANGELOG)\.md$|\.gitignore$)/.test(f));
+// model/phish-tiny-old/: the BERT-tiny model phish-tiny was until 0.17.0, kept and unused (0.18.0).
+const notHere = tracked.filter(f => !/^(model\/phish-tiny\/|model\/phish-tiny-old\/|model\/reference\/(model-reference\.json|ai-vectors\.json|input-format\.jsonl)$|tools\/(check|model-input)\.js$|(README|CLAUDE|CHANGELOG)\.md$|\.gitignore$)/.test(f));
 say(!notHere.length, `only the model, its references and tools are committed${notHere.length ? ` (also: ${notHere.join(', ')})` : ''}`);
 
 if (problems.length) { console.log(`\n${problems.length} problem(s).`); process.exit(1); }

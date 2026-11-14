@@ -1,20 +1,21 @@
 {
  "name": "phish-tiny",
- "version": "0.16.0",
+ "version": "0.18.0",
  "inputFormat": 2,
- "base": "prajjwal1/bert-tiny",
+ "arch": "electra",
+ "base": "google/electra-small-discriminator",
  "labels": [
   "genuine",
   "phishing"
  ],
- "trained": "2026-11-13",
+ "trained": "2026-11-14",
  "metrics": {
   "synthetic_test": {
-   "accuracy": 0.9827,
-   "precision": 0.9801,
-   "recall": 0.9853,
-   "false_positives": 15,
-   "false_negatives": 11,
+   "accuracy": 0.9973,
+   "precision": 0.9987,
+   "recall": 0.996,
+   "false_positives": 1,
+   "false_negatives": 3,
    "n": 1500
   },
   "hand_written": {
@@ -26,42 +27,43 @@
    "n": 33
   },
   "real_world_heldout": {
-   "accuracy": 0.9809,
+   "accuracy": 0.9883,
    "precision": 1.0,
-   "recall": 0.9809,
+   "recall": 0.9883,
    "false_positives": 0,
-   "false_negatives": 13,
+   "false_negatives": 8,
    "n": 681
   },
   "genuine_lookalikes": {
-   "accuracy": 0.9167,
+   "accuracy": 0.9583,
    "precision": 0.0,
    "recall": 0.0,
-   "false_positives": 2,
+   "false_positives": 1,
    "false_negatives": 0,
    "n": 24
   },
   "real_world_genuine_heldout": {
-   "accuracy": 0.9716,
+   "accuracy": 0.9929,
    "precision": 0.0,
    "recall": 0.0,
-   "false_positives": 20,
+   "false_positives": 5,
    "false_negatives": 0,
    "n": 705
   }
  },
  "config": {
-  "hidden": 128,
-  "heads": 2,
-  "layers": 2,
-  "intermediate": 512,
+  "embedding": 128,
+  "hidden": 256,
+  "heads": 4,
+  "layers": 12,
+  "intermediate": 1024,
   "eps": 1e-12,
   "maxLen": 256,
   "vocab": 30522
  },
  "tensors": [
   {
-   "name": "bert.embeddings.word_embeddings.weight",
+   "name": "electra.embeddings.word_embeddings.weight",
    "shape": [
     30522,
     128
@@ -71,7 +73,7 @@
    "scales": 3906816
   },
   {
-   "name": "bert.embeddings.position_embeddings.weight",
+   "name": "electra.embeddings.position_embeddings.weight",
    "shape": [
     512,
     128
@@ -81,7 +83,7 @@
    "scales": 4094440
   },
   {
-   "name": "bert.embeddings.token_type_embeddings.weight",
+   "name": "electra.embeddings.token_type_embeddings.weight",
    "shape": [
     2,
     128
@@ -90,7 +92,7 @@
    "offset": 4096488
   },
   {
-   "name": "bert.embeddings.LayerNorm.weight",
+   "name": "electra.embeddings.LayerNorm.weight",
    "shape": [
     128
    ],
@@ -98,7 +100,7 @@
    "offset": 4097512
   },
   {
-   "name": "bert.embeddings.LayerNorm.bias",
+   "name": "electra.embeddings.LayerNorm.bias",
    "shape": [
     128
    ],
@@ -106,319 +108,1737 @@
    "offset": 4098024
   },
   {
-   "name": "bert.encoder.layer.0.attention.self.query.weight",
+   "name": "electra.embeddings_project.weight",
    "shape": [
-    128,
+    256,
     128
    ],
    "dtype": "i8",
    "offset": 4098536,
-   "scales": 4114920
+   "scales": 4131304
   },
   {
-   "name": "bert.encoder.layer.0.attention.self.query.bias",
+   "name": "electra.embeddings_project.bias",
    "shape": [
-    128
+    256
    ],
    "dtype": "f32",
-   "offset": 4115432
+   "offset": 4132328
   },
   {
-   "name": "bert.encoder.layer.0.attention.self.key.weight",
+   "name": "electra.encoder.layer.0.attention.self.query.weight",
    "shape": [
-    128,
-    128
-   ],
-   "dtype": "i8",
-   "offset": 4115944,
-   "scales": 4132328
-  },
-  {
-   "name": "bert.encoder.layer.0.attention.self.key.bias",
-   "shape": [
-    128
-   ],
-   "dtype": "f32",
-   "offset": 4132840
-  },
-  {
-   "name": "bert.encoder.layer.0.attention.self.value.weight",
-   "shape": [
-    128,
-    128
+    256,
+    256
    ],
    "dtype": "i8",
    "offset": 4133352,
-   "scales": 4149736
+   "scales": 4198888
   },
   {
-   "name": "bert.encoder.layer.0.attention.self.value.bias",
+   "name": "electra.encoder.layer.0.attention.self.query.bias",
    "shape": [
-    128
+    256
    ],
    "dtype": "f32",
-   "offset": 4150248
+   "offset": 4199912
   },
   {
-   "name": "bert.encoder.layer.0.attention.output.dense.weight",
+   "name": "electra.encoder.layer.0.attention.self.key.weight",
    "shape": [
-    128,
-    128
+    256,
+    256
    ],
    "dtype": "i8",
-   "offset": 4150760,
-   "scales": 4167144
+   "offset": 4200936,
+   "scales": 4266472
   },
   {
-   "name": "bert.encoder.layer.0.attention.output.dense.bias",
+   "name": "electra.encoder.layer.0.attention.self.key.bias",
    "shape": [
-    128
+    256
    ],
    "dtype": "f32",
-   "offset": 4167656
+   "offset": 4267496
   },
   {
-   "name": "bert.encoder.layer.0.attention.output.LayerNorm.weight",
+   "name": "electra.encoder.layer.0.attention.self.value.weight",
    "shape": [
-    128
-   ],
-   "dtype": "f32",
-   "offset": 4168168
-  },
-  {
-   "name": "bert.encoder.layer.0.attention.output.LayerNorm.bias",
-   "shape": [
-    128
-   ],
-   "dtype": "f32",
-   "offset": 4168680
-  },
-  {
-   "name": "bert.encoder.layer.0.intermediate.dense.weight",
-   "shape": [
-    512,
-    128
+    256,
+    256
    ],
    "dtype": "i8",
-   "offset": 4169192,
-   "scales": 4234728
+   "offset": 4268520,
+   "scales": 4334056
   },
   {
-   "name": "bert.encoder.layer.0.intermediate.dense.bias",
+   "name": "electra.encoder.layer.0.attention.self.value.bias",
    "shape": [
-    512
+    256
    ],
    "dtype": "f32",
-   "offset": 4236776
+   "offset": 4335080
   },
   {
-   "name": "bert.encoder.layer.0.output.dense.weight",
+   "name": "electra.encoder.layer.0.attention.output.dense.weight",
    "shape": [
-    128,
-    512
+    256,
+    256
    ],
    "dtype": "i8",
-   "offset": 4238824,
-   "scales": 4304360
+   "offset": 4336104,
+   "scales": 4401640
   },
   {
-   "name": "bert.encoder.layer.0.output.dense.bias",
+   "name": "electra.encoder.layer.0.attention.output.dense.bias",
    "shape": [
-    128
+    256
    ],
    "dtype": "f32",
-   "offset": 4304872
+   "offset": 4402664
   },
   {
-   "name": "bert.encoder.layer.0.output.LayerNorm.weight",
+   "name": "electra.encoder.layer.0.attention.output.LayerNorm.weight",
    "shape": [
-    128
+    256
    ],
    "dtype": "f32",
-   "offset": 4305384
+   "offset": 4403688
   },
   {
-   "name": "bert.encoder.layer.0.output.LayerNorm.bias",
+   "name": "electra.encoder.layer.0.attention.output.LayerNorm.bias",
    "shape": [
-    128
+    256
    ],
    "dtype": "f32",
-   "offset": 4305896
+   "offset": 4404712
   },
   {
-   "name": "bert.encoder.layer.1.attention.self.query.weight",
+   "name": "electra.encoder.layer.0.intermediate.dense.weight",
    "shape": [
-    128,
-    128
+    1024,
+    256
    ],
    "dtype": "i8",
-   "offset": 4306408,
-   "scales": 4322792
+   "offset": 4405736,
+   "scales": 4667880
   },
   {
-   "name": "bert.encoder.layer.1.attention.self.query.bias",
+   "name": "electra.encoder.layer.0.intermediate.dense.bias",
    "shape": [
-    128
+    1024
    ],
    "dtype": "f32",
-   "offset": 4323304
+   "offset": 4671976
   },
   {
-   "name": "bert.encoder.layer.1.attention.self.key.weight",
+   "name": "electra.encoder.layer.0.output.dense.weight",
    "shape": [
-    128,
-    128
+    256,
+    1024
    ],
    "dtype": "i8",
-   "offset": 4323816,
-   "scales": 4340200
+   "offset": 4676072,
+   "scales": 4938216
   },
   {
-   "name": "bert.encoder.layer.1.attention.self.key.bias",
+   "name": "electra.encoder.layer.0.output.dense.bias",
    "shape": [
-    128
+    256
    ],
    "dtype": "f32",
-   "offset": 4340712
+   "offset": 4939240
   },
   {
-   "name": "bert.encoder.layer.1.attention.self.value.weight",
+   "name": "electra.encoder.layer.0.output.LayerNorm.weight",
    "shape": [
-    128,
-    128
+    256
+   ],
+   "dtype": "f32",
+   "offset": 4940264
+  },
+  {
+   "name": "electra.encoder.layer.0.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 4941288
+  },
+  {
+   "name": "electra.encoder.layer.1.attention.self.query.weight",
+   "shape": [
+    256,
+    256
    ],
    "dtype": "i8",
-   "offset": 4341224,
-   "scales": 4357608
+   "offset": 4942312,
+   "scales": 5007848
   },
   {
-   "name": "bert.encoder.layer.1.attention.self.value.bias",
+   "name": "electra.encoder.layer.1.attention.self.query.bias",
    "shape": [
-    128
+    256
    ],
    "dtype": "f32",
-   "offset": 4358120
+   "offset": 5008872
   },
   {
-   "name": "bert.encoder.layer.1.attention.output.dense.weight",
+   "name": "electra.encoder.layer.1.attention.self.key.weight",
    "shape": [
-    128,
-    128
+    256,
+    256
    ],
    "dtype": "i8",
-   "offset": 4358632,
-   "scales": 4375016
+   "offset": 5009896,
+   "scales": 5075432
   },
   {
-   "name": "bert.encoder.layer.1.attention.output.dense.bias",
+   "name": "electra.encoder.layer.1.attention.self.key.bias",
    "shape": [
-    128
+    256
    ],
    "dtype": "f32",
-   "offset": 4375528
+   "offset": 5076456
   },
   {
-   "name": "bert.encoder.layer.1.attention.output.LayerNorm.weight",
+   "name": "electra.encoder.layer.1.attention.self.value.weight",
    "shape": [
-    128
-   ],
-   "dtype": "f32",
-   "offset": 4376040
-  },
-  {
-   "name": "bert.encoder.layer.1.attention.output.LayerNorm.bias",
-   "shape": [
-    128
-   ],
-   "dtype": "f32",
-   "offset": 4376552
-  },
-  {
-   "name": "bert.encoder.layer.1.intermediate.dense.weight",
-   "shape": [
-    512,
-    128
+    256,
+    256
    ],
    "dtype": "i8",
-   "offset": 4377064,
-   "scales": 4442600
+   "offset": 5077480,
+   "scales": 5143016
   },
   {
-   "name": "bert.encoder.layer.1.intermediate.dense.bias",
+   "name": "electra.encoder.layer.1.attention.self.value.bias",
    "shape": [
-    512
+    256
    ],
    "dtype": "f32",
-   "offset": 4444648
+   "offset": 5144040
   },
   {
-   "name": "bert.encoder.layer.1.output.dense.weight",
+   "name": "electra.encoder.layer.1.attention.output.dense.weight",
    "shape": [
-    128,
-    512
+    256,
+    256
    ],
    "dtype": "i8",
-   "offset": 4446696,
-   "scales": 4512232
+   "offset": 5145064,
+   "scales": 5210600
   },
   {
-   "name": "bert.encoder.layer.1.output.dense.bias",
+   "name": "electra.encoder.layer.1.attention.output.dense.bias",
    "shape": [
-    128
+    256
    ],
    "dtype": "f32",
-   "offset": 4512744
+   "offset": 5211624
   },
   {
-   "name": "bert.encoder.layer.1.output.LayerNorm.weight",
+   "name": "electra.encoder.layer.1.attention.output.LayerNorm.weight",
    "shape": [
-    128
+    256
    ],
    "dtype": "f32",
-   "offset": 4513256
+   "offset": 5212648
   },
   {
-   "name": "bert.encoder.layer.1.output.LayerNorm.bias",
+   "name": "electra.encoder.layer.1.attention.output.LayerNorm.bias",
    "shape": [
-    128
+    256
    ],
    "dtype": "f32",
-   "offset": 4513768
+   "offset": 5213672
   },
   {
-   "name": "bert.pooler.dense.weight",
+   "name": "electra.encoder.layer.1.intermediate.dense.weight",
    "shape": [
-    128,
-    128
+    1024,
+    256
    ],
    "dtype": "i8",
-   "offset": 4514280,
-   "scales": 4530664
+   "offset": 5214696,
+   "scales": 5476840
   },
   {
-   "name": "bert.pooler.dense.bias",
+   "name": "electra.encoder.layer.1.intermediate.dense.bias",
    "shape": [
-    128
+    1024
    ],
    "dtype": "f32",
-   "offset": 4531176
+   "offset": 5480936
   },
   {
-   "name": "classifier.weight",
+   "name": "electra.encoder.layer.1.output.dense.weight",
+   "shape": [
+    256,
+    1024
+   ],
+   "dtype": "i8",
+   "offset": 5485032,
+   "scales": 5747176
+  },
+  {
+   "name": "electra.encoder.layer.1.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 5748200
+  },
+  {
+   "name": "electra.encoder.layer.1.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 5749224
+  },
+  {
+   "name": "electra.encoder.layer.1.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 5750248
+  },
+  {
+   "name": "electra.encoder.layer.2.attention.self.query.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 5751272,
+   "scales": 5816808
+  },
+  {
+   "name": "electra.encoder.layer.2.attention.self.query.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 5817832
+  },
+  {
+   "name": "electra.encoder.layer.2.attention.self.key.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 5818856,
+   "scales": 5884392
+  },
+  {
+   "name": "electra.encoder.layer.2.attention.self.key.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 5885416
+  },
+  {
+   "name": "electra.encoder.layer.2.attention.self.value.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 5886440,
+   "scales": 5951976
+  },
+  {
+   "name": "electra.encoder.layer.2.attention.self.value.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 5953000
+  },
+  {
+   "name": "electra.encoder.layer.2.attention.output.dense.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 5954024,
+   "scales": 6019560
+  },
+  {
+   "name": "electra.encoder.layer.2.attention.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 6020584
+  },
+  {
+   "name": "electra.encoder.layer.2.attention.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 6021608
+  },
+  {
+   "name": "electra.encoder.layer.2.attention.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 6022632
+  },
+  {
+   "name": "electra.encoder.layer.2.intermediate.dense.weight",
+   "shape": [
+    1024,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 6023656,
+   "scales": 6285800
+  },
+  {
+   "name": "electra.encoder.layer.2.intermediate.dense.bias",
+   "shape": [
+    1024
+   ],
+   "dtype": "f32",
+   "offset": 6289896
+  },
+  {
+   "name": "electra.encoder.layer.2.output.dense.weight",
+   "shape": [
+    256,
+    1024
+   ],
+   "dtype": "i8",
+   "offset": 6293992,
+   "scales": 6556136
+  },
+  {
+   "name": "electra.encoder.layer.2.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 6557160
+  },
+  {
+   "name": "electra.encoder.layer.2.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 6558184
+  },
+  {
+   "name": "electra.encoder.layer.2.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 6559208
+  },
+  {
+   "name": "electra.encoder.layer.3.attention.self.query.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 6560232,
+   "scales": 6625768
+  },
+  {
+   "name": "electra.encoder.layer.3.attention.self.query.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 6626792
+  },
+  {
+   "name": "electra.encoder.layer.3.attention.self.key.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 6627816,
+   "scales": 6693352
+  },
+  {
+   "name": "electra.encoder.layer.3.attention.self.key.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 6694376
+  },
+  {
+   "name": "electra.encoder.layer.3.attention.self.value.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 6695400,
+   "scales": 6760936
+  },
+  {
+   "name": "electra.encoder.layer.3.attention.self.value.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 6761960
+  },
+  {
+   "name": "electra.encoder.layer.3.attention.output.dense.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 6762984,
+   "scales": 6828520
+  },
+  {
+   "name": "electra.encoder.layer.3.attention.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 6829544
+  },
+  {
+   "name": "electra.encoder.layer.3.attention.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 6830568
+  },
+  {
+   "name": "electra.encoder.layer.3.attention.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 6831592
+  },
+  {
+   "name": "electra.encoder.layer.3.intermediate.dense.weight",
+   "shape": [
+    1024,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 6832616,
+   "scales": 7094760
+  },
+  {
+   "name": "electra.encoder.layer.3.intermediate.dense.bias",
+   "shape": [
+    1024
+   ],
+   "dtype": "f32",
+   "offset": 7098856
+  },
+  {
+   "name": "electra.encoder.layer.3.output.dense.weight",
+   "shape": [
+    256,
+    1024
+   ],
+   "dtype": "i8",
+   "offset": 7102952,
+   "scales": 7365096
+  },
+  {
+   "name": "electra.encoder.layer.3.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 7366120
+  },
+  {
+   "name": "electra.encoder.layer.3.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 7367144
+  },
+  {
+   "name": "electra.encoder.layer.3.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 7368168
+  },
+  {
+   "name": "electra.encoder.layer.4.attention.self.query.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 7369192,
+   "scales": 7434728
+  },
+  {
+   "name": "electra.encoder.layer.4.attention.self.query.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 7435752
+  },
+  {
+   "name": "electra.encoder.layer.4.attention.self.key.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 7436776,
+   "scales": 7502312
+  },
+  {
+   "name": "electra.encoder.layer.4.attention.self.key.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 7503336
+  },
+  {
+   "name": "electra.encoder.layer.4.attention.self.value.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 7504360,
+   "scales": 7569896
+  },
+  {
+   "name": "electra.encoder.layer.4.attention.self.value.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 7570920
+  },
+  {
+   "name": "electra.encoder.layer.4.attention.output.dense.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 7571944,
+   "scales": 7637480
+  },
+  {
+   "name": "electra.encoder.layer.4.attention.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 7638504
+  },
+  {
+   "name": "electra.encoder.layer.4.attention.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 7639528
+  },
+  {
+   "name": "electra.encoder.layer.4.attention.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 7640552
+  },
+  {
+   "name": "electra.encoder.layer.4.intermediate.dense.weight",
+   "shape": [
+    1024,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 7641576,
+   "scales": 7903720
+  },
+  {
+   "name": "electra.encoder.layer.4.intermediate.dense.bias",
+   "shape": [
+    1024
+   ],
+   "dtype": "f32",
+   "offset": 7907816
+  },
+  {
+   "name": "electra.encoder.layer.4.output.dense.weight",
+   "shape": [
+    256,
+    1024
+   ],
+   "dtype": "i8",
+   "offset": 7911912,
+   "scales": 8174056
+  },
+  {
+   "name": "electra.encoder.layer.4.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 8175080
+  },
+  {
+   "name": "electra.encoder.layer.4.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 8176104
+  },
+  {
+   "name": "electra.encoder.layer.4.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 8177128
+  },
+  {
+   "name": "electra.encoder.layer.5.attention.self.query.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 8178152,
+   "scales": 8243688
+  },
+  {
+   "name": "electra.encoder.layer.5.attention.self.query.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 8244712
+  },
+  {
+   "name": "electra.encoder.layer.5.attention.self.key.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 8245736,
+   "scales": 8311272
+  },
+  {
+   "name": "electra.encoder.layer.5.attention.self.key.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 8312296
+  },
+  {
+   "name": "electra.encoder.layer.5.attention.self.value.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 8313320,
+   "scales": 8378856
+  },
+  {
+   "name": "electra.encoder.layer.5.attention.self.value.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 8379880
+  },
+  {
+   "name": "electra.encoder.layer.5.attention.output.dense.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 8380904,
+   "scales": 8446440
+  },
+  {
+   "name": "electra.encoder.layer.5.attention.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 8447464
+  },
+  {
+   "name": "electra.encoder.layer.5.attention.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 8448488
+  },
+  {
+   "name": "electra.encoder.layer.5.attention.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 8449512
+  },
+  {
+   "name": "electra.encoder.layer.5.intermediate.dense.weight",
+   "shape": [
+    1024,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 8450536,
+   "scales": 8712680
+  },
+  {
+   "name": "electra.encoder.layer.5.intermediate.dense.bias",
+   "shape": [
+    1024
+   ],
+   "dtype": "f32",
+   "offset": 8716776
+  },
+  {
+   "name": "electra.encoder.layer.5.output.dense.weight",
+   "shape": [
+    256,
+    1024
+   ],
+   "dtype": "i8",
+   "offset": 8720872,
+   "scales": 8983016
+  },
+  {
+   "name": "electra.encoder.layer.5.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 8984040
+  },
+  {
+   "name": "electra.encoder.layer.5.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 8985064
+  },
+  {
+   "name": "electra.encoder.layer.5.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 8986088
+  },
+  {
+   "name": "electra.encoder.layer.6.attention.self.query.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 8987112,
+   "scales": 9052648
+  },
+  {
+   "name": "electra.encoder.layer.6.attention.self.query.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 9053672
+  },
+  {
+   "name": "electra.encoder.layer.6.attention.self.key.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 9054696,
+   "scales": 9120232
+  },
+  {
+   "name": "electra.encoder.layer.6.attention.self.key.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 9121256
+  },
+  {
+   "name": "electra.encoder.layer.6.attention.self.value.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 9122280,
+   "scales": 9187816
+  },
+  {
+   "name": "electra.encoder.layer.6.attention.self.value.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 9188840
+  },
+  {
+   "name": "electra.encoder.layer.6.attention.output.dense.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 9189864,
+   "scales": 9255400
+  },
+  {
+   "name": "electra.encoder.layer.6.attention.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 9256424
+  },
+  {
+   "name": "electra.encoder.layer.6.attention.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 9257448
+  },
+  {
+   "name": "electra.encoder.layer.6.attention.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 9258472
+  },
+  {
+   "name": "electra.encoder.layer.6.intermediate.dense.weight",
+   "shape": [
+    1024,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 9259496,
+   "scales": 9521640
+  },
+  {
+   "name": "electra.encoder.layer.6.intermediate.dense.bias",
+   "shape": [
+    1024
+   ],
+   "dtype": "f32",
+   "offset": 9525736
+  },
+  {
+   "name": "electra.encoder.layer.6.output.dense.weight",
+   "shape": [
+    256,
+    1024
+   ],
+   "dtype": "i8",
+   "offset": 9529832,
+   "scales": 9791976
+  },
+  {
+   "name": "electra.encoder.layer.6.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 9793000
+  },
+  {
+   "name": "electra.encoder.layer.6.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 9794024
+  },
+  {
+   "name": "electra.encoder.layer.6.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 9795048
+  },
+  {
+   "name": "electra.encoder.layer.7.attention.self.query.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 9796072,
+   "scales": 9861608
+  },
+  {
+   "name": "electra.encoder.layer.7.attention.self.query.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 9862632
+  },
+  {
+   "name": "electra.encoder.layer.7.attention.self.key.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 9863656,
+   "scales": 9929192
+  },
+  {
+   "name": "electra.encoder.layer.7.attention.self.key.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 9930216
+  },
+  {
+   "name": "electra.encoder.layer.7.attention.self.value.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 9931240,
+   "scales": 9996776
+  },
+  {
+   "name": "electra.encoder.layer.7.attention.self.value.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 9997800
+  },
+  {
+   "name": "electra.encoder.layer.7.attention.output.dense.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 9998824,
+   "scales": 10064360
+  },
+  {
+   "name": "electra.encoder.layer.7.attention.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 10065384
+  },
+  {
+   "name": "electra.encoder.layer.7.attention.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 10066408
+  },
+  {
+   "name": "electra.encoder.layer.7.attention.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 10067432
+  },
+  {
+   "name": "electra.encoder.layer.7.intermediate.dense.weight",
+   "shape": [
+    1024,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 10068456,
+   "scales": 10330600
+  },
+  {
+   "name": "electra.encoder.layer.7.intermediate.dense.bias",
+   "shape": [
+    1024
+   ],
+   "dtype": "f32",
+   "offset": 10334696
+  },
+  {
+   "name": "electra.encoder.layer.7.output.dense.weight",
+   "shape": [
+    256,
+    1024
+   ],
+   "dtype": "i8",
+   "offset": 10338792,
+   "scales": 10600936
+  },
+  {
+   "name": "electra.encoder.layer.7.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 10601960
+  },
+  {
+   "name": "electra.encoder.layer.7.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 10602984
+  },
+  {
+   "name": "electra.encoder.layer.7.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 10604008
+  },
+  {
+   "name": "electra.encoder.layer.8.attention.self.query.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 10605032,
+   "scales": 10670568
+  },
+  {
+   "name": "electra.encoder.layer.8.attention.self.query.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 10671592
+  },
+  {
+   "name": "electra.encoder.layer.8.attention.self.key.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 10672616,
+   "scales": 10738152
+  },
+  {
+   "name": "electra.encoder.layer.8.attention.self.key.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 10739176
+  },
+  {
+   "name": "electra.encoder.layer.8.attention.self.value.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 10740200,
+   "scales": 10805736
+  },
+  {
+   "name": "electra.encoder.layer.8.attention.self.value.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 10806760
+  },
+  {
+   "name": "electra.encoder.layer.8.attention.output.dense.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 10807784,
+   "scales": 10873320
+  },
+  {
+   "name": "electra.encoder.layer.8.attention.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 10874344
+  },
+  {
+   "name": "electra.encoder.layer.8.attention.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 10875368
+  },
+  {
+   "name": "electra.encoder.layer.8.attention.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 10876392
+  },
+  {
+   "name": "electra.encoder.layer.8.intermediate.dense.weight",
+   "shape": [
+    1024,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 10877416,
+   "scales": 11139560
+  },
+  {
+   "name": "electra.encoder.layer.8.intermediate.dense.bias",
+   "shape": [
+    1024
+   ],
+   "dtype": "f32",
+   "offset": 11143656
+  },
+  {
+   "name": "electra.encoder.layer.8.output.dense.weight",
+   "shape": [
+    256,
+    1024
+   ],
+   "dtype": "i8",
+   "offset": 11147752,
+   "scales": 11409896
+  },
+  {
+   "name": "electra.encoder.layer.8.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 11410920
+  },
+  {
+   "name": "electra.encoder.layer.8.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 11411944
+  },
+  {
+   "name": "electra.encoder.layer.8.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 11412968
+  },
+  {
+   "name": "electra.encoder.layer.9.attention.self.query.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 11413992,
+   "scales": 11479528
+  },
+  {
+   "name": "electra.encoder.layer.9.attention.self.query.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 11480552
+  },
+  {
+   "name": "electra.encoder.layer.9.attention.self.key.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 11481576,
+   "scales": 11547112
+  },
+  {
+   "name": "electra.encoder.layer.9.attention.self.key.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 11548136
+  },
+  {
+   "name": "electra.encoder.layer.9.attention.self.value.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 11549160,
+   "scales": 11614696
+  },
+  {
+   "name": "electra.encoder.layer.9.attention.self.value.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 11615720
+  },
+  {
+   "name": "electra.encoder.layer.9.attention.output.dense.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 11616744,
+   "scales": 11682280
+  },
+  {
+   "name": "electra.encoder.layer.9.attention.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 11683304
+  },
+  {
+   "name": "electra.encoder.layer.9.attention.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 11684328
+  },
+  {
+   "name": "electra.encoder.layer.9.attention.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 11685352
+  },
+  {
+   "name": "electra.encoder.layer.9.intermediate.dense.weight",
+   "shape": [
+    1024,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 11686376,
+   "scales": 11948520
+  },
+  {
+   "name": "electra.encoder.layer.9.intermediate.dense.bias",
+   "shape": [
+    1024
+   ],
+   "dtype": "f32",
+   "offset": 11952616
+  },
+  {
+   "name": "electra.encoder.layer.9.output.dense.weight",
+   "shape": [
+    256,
+    1024
+   ],
+   "dtype": "i8",
+   "offset": 11956712,
+   "scales": 12218856
+  },
+  {
+   "name": "electra.encoder.layer.9.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 12219880
+  },
+  {
+   "name": "electra.encoder.layer.9.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 12220904
+  },
+  {
+   "name": "electra.encoder.layer.9.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 12221928
+  },
+  {
+   "name": "electra.encoder.layer.10.attention.self.query.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 12222952,
+   "scales": 12288488
+  },
+  {
+   "name": "electra.encoder.layer.10.attention.self.query.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 12289512
+  },
+  {
+   "name": "electra.encoder.layer.10.attention.self.key.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 12290536,
+   "scales": 12356072
+  },
+  {
+   "name": "electra.encoder.layer.10.attention.self.key.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 12357096
+  },
+  {
+   "name": "electra.encoder.layer.10.attention.self.value.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 12358120,
+   "scales": 12423656
+  },
+  {
+   "name": "electra.encoder.layer.10.attention.self.value.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 12424680
+  },
+  {
+   "name": "electra.encoder.layer.10.attention.output.dense.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 12425704,
+   "scales": 12491240
+  },
+  {
+   "name": "electra.encoder.layer.10.attention.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 12492264
+  },
+  {
+   "name": "electra.encoder.layer.10.attention.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 12493288
+  },
+  {
+   "name": "electra.encoder.layer.10.attention.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 12494312
+  },
+  {
+   "name": "electra.encoder.layer.10.intermediate.dense.weight",
+   "shape": [
+    1024,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 12495336,
+   "scales": 12757480
+  },
+  {
+   "name": "electra.encoder.layer.10.intermediate.dense.bias",
+   "shape": [
+    1024
+   ],
+   "dtype": "f32",
+   "offset": 12761576
+  },
+  {
+   "name": "electra.encoder.layer.10.output.dense.weight",
+   "shape": [
+    256,
+    1024
+   ],
+   "dtype": "i8",
+   "offset": 12765672,
+   "scales": 13027816
+  },
+  {
+   "name": "electra.encoder.layer.10.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 13028840
+  },
+  {
+   "name": "electra.encoder.layer.10.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 13029864
+  },
+  {
+   "name": "electra.encoder.layer.10.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 13030888
+  },
+  {
+   "name": "electra.encoder.layer.11.attention.self.query.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 13031912,
+   "scales": 13097448
+  },
+  {
+   "name": "electra.encoder.layer.11.attention.self.query.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 13098472
+  },
+  {
+   "name": "electra.encoder.layer.11.attention.self.key.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 13099496,
+   "scales": 13165032
+  },
+  {
+   "name": "electra.encoder.layer.11.attention.self.key.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 13166056
+  },
+  {
+   "name": "electra.encoder.layer.11.attention.self.value.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 13167080,
+   "scales": 13232616
+  },
+  {
+   "name": "electra.encoder.layer.11.attention.self.value.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 13233640
+  },
+  {
+   "name": "electra.encoder.layer.11.attention.output.dense.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 13234664,
+   "scales": 13300200
+  },
+  {
+   "name": "electra.encoder.layer.11.attention.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 13301224
+  },
+  {
+   "name": "electra.encoder.layer.11.attention.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 13302248
+  },
+  {
+   "name": "electra.encoder.layer.11.attention.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 13303272
+  },
+  {
+   "name": "electra.encoder.layer.11.intermediate.dense.weight",
+   "shape": [
+    1024,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 13304296,
+   "scales": 13566440
+  },
+  {
+   "name": "electra.encoder.layer.11.intermediate.dense.bias",
+   "shape": [
+    1024
+   ],
+   "dtype": "f32",
+   "offset": 13570536
+  },
+  {
+   "name": "electra.encoder.layer.11.output.dense.weight",
+   "shape": [
+    256,
+    1024
+   ],
+   "dtype": "i8",
+   "offset": 13574632,
+   "scales": 13836776
+  },
+  {
+   "name": "electra.encoder.layer.11.output.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 13837800
+  },
+  {
+   "name": "electra.encoder.layer.11.output.LayerNorm.weight",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 13838824
+  },
+  {
+   "name": "electra.encoder.layer.11.output.LayerNorm.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 13839848
+  },
+  {
+   "name": "classifier.dense.weight",
+   "shape": [
+    256,
+    256
+   ],
+   "dtype": "i8",
+   "offset": 13840872,
+   "scales": 13906408
+  },
+  {
+   "name": "classifier.dense.bias",
+   "shape": [
+    256
+   ],
+   "dtype": "f32",
+   "offset": 13907432
+  },
+  {
+   "name": "classifier.out_proj.weight",
    "shape": [
     2,
-    128
+    256
    ],
    "dtype": "f32",
-   "offset": 4531688
+   "offset": 13908456
   },
   {
-   "name": "classifier.bias",
+   "name": "classifier.out_proj.bias",
    "shape": [
     2
    ],
    "dtype": "f32",
-   "offset": 4532712
+   "offset": 13910504
   }
  ]
 }
