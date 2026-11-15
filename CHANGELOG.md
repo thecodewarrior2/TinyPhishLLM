@@ -1,5 +1,29 @@
 # Changelog
 
+## phish-tiny 0.19.0: far fewer false alarms on a district's own mail, fewer missed phishing
+
+Same architecture (ELECTRA-small), vocabulary and **input format 2** as 0.18.0: a program that runs 0.18.0 runs this
+one unchanged. Trained from Google's base with a district's own de-identified examples (never published) and two
+new training losses (a phishing email and its genuine twin kept apart; each training email pushed past 95% on its
+side).
+
+Scores against 0.18.0 on the same held-out sets (never trained on; lower is better):
+
+| | 0.18.0 @50% | 0.19.0 @50% | 0.18.0 @90% | 0.19.0 @90% | 0.18.0 @95% | 0.19.0 @95% |
+|---|---|---|---|---|---|---|
+| A district's held-out genuine called phishing (29) | 13 | **2** | 12 | **0** | 11 | **0** |
+| A district's held-out phishing missed (1) | 0 | 0 | 0 | 0 | 0 | 0 |
+| Published phishing missed (681 held-out variants) | 8 | 6 | 13 | **6** | 14 | **7** |
+| Published genuine called phishing (705 held-out variants) | 5 | 4 | 4 | 3 | 4 | 3 |
+| Genuine look-alikes called phishing (24) | 1 | 1 | 1 | 0 | 1 | 0 |
+| Platform-share checks wrong (14) | 0 | 0 | 1 | 3 | 1 | 3 |
+| Hand-written wrong (33) | 0 | 0 | 0 | 0 | 0 | 1 |
+| Regression cases wrong (16) | 0 | 0 | 0 | 0 | 0 | 0 |
+
+Worse: two more platform-share check cases fall under the 90% line (still above 50%). One training run; the district
+set is small. Committing it here releases nothing: a program uses it only in a version the maintainer has tried and
+approved.
+
 ## phish-tiny 0.18.0: ELECTRA-small; the BERT-tiny model kept as phish-tiny-old, unused
 
 **phish-tiny is now an ELECTRA-small classifier** (`google/electra-small-discriminator`, Apache 2.0: 12 layers, 256 wide,
