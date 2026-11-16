@@ -1,5 +1,25 @@
 # Changelog
 
+## phish-tiny 0.22.0: far fewer false alarms on a district's own mail; misses one compromised-account scam
+
+Same architecture, vocabulary and **input format 3** as 0.21.0 (a program running 0.21.0 runs this one unchanged).
+Trained with more of one district's own de-identified mail (never published). Scores against 0.21.0 (held-out sets,
+never trained on; lower is better):
+
+| | 0.21.0 @90% | 0.22.0 @90% |
+|---|---|---|
+| A district's held-out genuine called phishing (45) | 4 | 2 |
+| (the same at 50%) | 10 | 2 |
+| A district's held-out phishing missed (3) | 0 | 0 |
+| A district's reported compromised-account scam missed (1) | 0 | 1 |
+| Published phishing missed (771 held-out variants) | 16 | 18 |
+| Published genuine called phishing (846 held-out variants) | 5 | 5 |
+| Context pairs wrong (55) | 3 | 0 |
+| Hand-written and regression cases wrong (33, 16) | 0, 0 | 0, 0 |
+
+Worse: one reported scam from a compromised staff account is no longer caught. Committing it here releases nothing:
+a program uses it only in a version the maintainer has tried and approved.
+
 ## phish-tiny 0.21.0: input format 3, a long email's last sentences reach the model (0.20.0's weights)
 
 The same weights as 0.20.0, reading **input format 3**: a text of more than 60 sentences keeps its first 40 and its
