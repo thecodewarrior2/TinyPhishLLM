@@ -1,6 +1,6 @@
 {
  "name": "phish-tiny",
- "version": "0.19.0",
+ "version": "0.20.0",
  "inputFormat": 2,
  "arch": "electra",
  "base": "google/electra-small-discriminator",
@@ -8,14 +8,14 @@
   "genuine",
   "phishing"
  ],
- "trained": "2026-11-15",
+ "trained": "2026-11-16",
  "metrics": {
   "synthetic_test": {
-   "accuracy": 0.996,
-   "precision": 0.996,
-   "recall": 0.996,
-   "false_positives": 3,
-   "false_negatives": 3,
+   "accuracy": 0.9933,
+   "precision": 0.9987,
+   "recall": 0.988,
+   "false_positives": 1,
+   "false_negatives": 9,
    "n": 1500
   },
   "hand_written": {
@@ -27,12 +27,12 @@
    "n": 33
   },
   "real_world_heldout": {
-   "accuracy": 0.9912,
+   "accuracy": 0.9857,
    "precision": 1.0,
-   "recall": 0.9912,
+   "recall": 0.9857,
    "false_positives": 0,
-   "false_negatives": 6,
-   "n": 681
+   "false_negatives": 11,
+   "n": 771
   },
   "genuine_lookalikes": {
    "accuracy": 0.9583,
@@ -43,12 +43,12 @@
    "n": 24
   },
   "real_world_genuine_heldout": {
-   "accuracy": 0.9943,
+   "accuracy": 0.9948,
    "precision": 0.0,
    "recall": 0.0,
    "false_positives": 4,
    "false_negatives": 0,
-   "n": 705
+   "n": 774
   }
  },
  "config": {
@@ -59,6 +59,7 @@
   "intermediate": 1024,
   "eps": 1e-12,
   "maxLen": 256,
+  "headTokens": 192,
   "vocab": 30522
  },
  "tensors": [

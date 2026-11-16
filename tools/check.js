@@ -51,9 +51,11 @@ say(ref.length > 50 && !changed.length, `tools/model-input.js builds the ${ref.l
 
 // --- 3. Only the model, and made-up references --------------------------------------------------------------
 const UNICODE_SAMPLE = 'Café résumé naïve — "quoted" text, URLs like https://ex-ample.com/a?b=1 & emoji \u{1F600} and 中文!';
+// (0.20.0) A made-up text longer than the model reads, for the start-and-end cut (model.json config.headTokens).
+const LONG_SAMPLE = 'Made-up notice for maple-schools.example staff. ' + Array.from({ length: 60 }, (_, k) => `Item ${k + 1} is available for ${(k + 1) * 10} dollars.`).join(' ') + ' Reply to the front office before Friday.';
 say(ref.every(r => /^(made-up|edge):/.test(r.name)), 'input-format.jsonl has only made-up cases (made-up:, edge:)');
 const madeUp = new Set(ref.map(r => r.text));
-say(vec.every(v => madeUp.has(v.text) || v.text === UNICODE_SAMPLE), 'ai-vectors.json has only made-up texts');
+say(vec.every(v => madeUp.has(v.text) || v.text === UNICODE_SAMPLE || v.text === LONG_SAMPLE), 'ai-vectors.json has only made-up texts');
 let tracked = [];
 try { tracked = execFileSync('git', ['ls-files'], { cwd: ROOT }).toString().split('\n').filter(Boolean); } catch (e) { /* not a git checkout */ }
 // model/phish-tiny-old/: the BERT-tiny model phish-tiny was until 0.17.0, kept and unused (0.18.0).

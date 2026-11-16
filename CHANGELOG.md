@@ -1,5 +1,35 @@
 # Changelog
 
+## phish-tiny 0.20.0: reads a long email's start and its end; far fewer missed phishing emails
+
+Same architecture (ELECTRA-small), vocabulary and **input format 2** as 0.19.0, but **a program must change how it
+cuts a long input before it syncs this model:** an input longer than 256 word pieces keeps `[CLS]`, its first
+`config.headTokens` (192) pieces, its last `maxLen - 2 - headTokens` (62) and `[SEP]`; a model without
+`headTokens` keeps its first 254 as before. A program should also give the model the end of a long email (the
+extension and the service keep a body's first 6000 and last 2000 characters). `model-reference.json` and
+`ai-vectors.json` include long made-up inputs, so a program that cuts differently fails its reference test.
+Trained with long-email variants and more published examples, phishing and genuine.
+
+Scores against 0.19.0 on the same held-out sets (never trained on, and larger than in 0.19.0's entry; lower is better):
+
+| | 0.19.0 @50% | 0.20.0 @50% | 0.19.0 @90% | 0.20.0 @90% | 0.19.0 @95% | 0.20.0 @95% |
+|---|---|---|---|---|---|---|
+| **Published phishing missed (771 held-out variants)** | 60 | **11** | 75 | **16** | 78 | **17** |
+| **Synthetic test phishing missed (1500)** | 59 | **9** | 68 | **16** | 72 | **19** |
+| A district's reported phishing missed (1) | 1 | 0 | 1 | 0 | 1 | 1 |
+| A district's held-out genuine called phishing (29) | 2 | 1 | 0 | 0 | 0 | 0 |
+| Published genuine called phishing (774 held-out variants) | 3 | 5 | 3 | 5 | 3 | 5 |
+| Genuine look-alikes called phishing (24) | 1 | 1 | 0 | 1 | 0 | 1 |
+| Context pairs wrong (55) | 4 | 4 | 3 | 4 | 3 | 4 |
+| Trigger-word genuine emails called phishing (25) | 1 | 1 | 0 | 1 | 0 | 1 |
+| Platform-share checks wrong (14) | 0 | 0 | 3 | 2 | 3 | 2 |
+| Hand-written wrong (33) | 0 | 0 | 0 | 0 | 1 | 0 |
+| Regression cases wrong (16) | 0 | 0 | 0 | 0 | 0 | 0 |
+
+Worse: about six more genuine emails called phishing across the sets at 90%, mostly short account and security
+notices. One training run. Committing it here releases nothing: a program uses it only in a version the maintainer
+has tried and approved.
+
 ## phish-tiny 0.19.0: far fewer false alarms on a district's own mail, fewer missed phishing
 
 Same architecture (ELECTRA-small), vocabulary and **input format 2** as 0.18.0: a program that runs 0.18.0 runs this
