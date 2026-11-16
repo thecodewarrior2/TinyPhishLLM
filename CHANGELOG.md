@@ -1,5 +1,22 @@
 # Changelog
 
+## phish-tiny 0.21.0: input format 3, a long email's last sentences reach the model (0.20.0's weights)
+
+The same weights as 0.20.0, reading **input format 3**: a text of more than 60 sentences keeps its first 40 and its
+last 20 (format 2 kept its first 60), so the model's start-and-end reading sees a long email's real ending.
+**A program must change its copy of the format before it syncs this model** (`splitSentences(text, format)` in
+`tools/model-input.js`; `AI_INPUT_FORMAT` 3); the new reference case `edge:long-text-start-and-end` (75 numbered
+sentences) checks it. Shorter texts read as in format 2, so every score of 0.20.0 holds.
+
+On long emails (held-out examples with 70 made-up newsletter sentences before their own text), with the same weights:
+
+| | format 2 | format 3 |
+|---|---|---|
+| Published phishing flagged at 90% (771 held-out variants) | 638 | 696 |
+| Published genuine flagged at 90% (846 held-out variants) | 4 | 4 |
+
+Committing it here releases nothing: a program uses it only in a version the maintainer has tried and approved.
+
 ## phish-tiny 0.20.0: reads a long email's start and its end; far fewer missed phishing emails
 
 Same architecture (ELECTRA-small), vocabulary and **input format 2** as 0.19.0, but **a program must change how it

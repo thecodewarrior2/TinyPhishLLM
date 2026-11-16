@@ -1,8 +1,10 @@
-# phish-tiny 0.20.0
+# phish-tiny 0.21.0
+
+**0.21.0 has 0.20.0's weights and reads input format 3**: as format 2, but a text of more than 60 sentences keeps its first 40 and its last 20 (format 2 kept its first 60), so a long email's ending reaches the model. Nothing was trained again: no training example has 60 sentences or more, so the training texts are the same in both formats, and so are the scores below (training/data/c21d-format3; CHANGELOG.md has the long-email check).
 
 An ELECTRA-small classifier (google/electra-small-discriminator, 12 layers, 13.5 million parameters) fine-tuned to tell phishing from
 genuine email, from the facts the programs collect (subject, sender name and domain, DMARC result,
-links and their checks) and the email's text with addresses and numbers redacted. It reads input format 2: also what the programs' sender checks found (who the sender's name claims to be and whether the domain is theirs, Reply-To domains that aren't the sender's, the attached files' kinds, failing SPF/DKIM) and text in capitals; a program must build that format's text for it (`model-input.js`, `model.json` `inputFormat`). Trained 2026-11-16
+links and their checks) and the email's text with addresses and numbers redacted. It reads input format 3 (format 2, with a long text's first 40 and last 20 sentences): also what the programs' sender checks found (who the sender's name claims to be and whether the domain is theirs, Reply-To domains that aren't the sender's, the attached files' kinds, failing SPF/DKIM) and text in capitals; a program must build that format's text for it (`model-input.js`, `model.json` `inputFormat`). Trained 2026-11-16
 by TinyPhishLLM's `training/train.py` with 3 epochs at learning rate 0.0001; weights stored in 8 bits.
 
 **Training data:** 22725 emails from `training/make-dataset.js`: synthetic ones from its templates, and variants

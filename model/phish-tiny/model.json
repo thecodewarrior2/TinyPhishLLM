@@ -1,7 +1,7 @@
 {
  "name": "phish-tiny",
- "version": "0.20.0",
- "inputFormat": 2,
+ "version": "0.21.0",
+ "inputFormat": 3,
  "arch": "electra",
  "base": "google/electra-small-discriminator",
  "labels": [
