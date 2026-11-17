@@ -21,5 +21,5 @@ explains the layout.
 - **Committing here releases nothing.** A model reaches people only when a program syncs it
   (`tools/sync-model.js` in each) and the maintainer (the repository owner) has tried that program's
   version and approved it in their own words, under that program's own rules (its CLAUDE.md). Never
-  push a program's release branch or repository (`main` of the extension, `google_service_main`) from
+  push a program's release branch or repository (`main` of the extension, `spruce-google-service_main`) from
   work done here.
