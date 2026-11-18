@@ -1,5 +1,13 @@
 # Changelog
 
+## phish-tiny 0.24.0 withdrawn: 0.22.0 is the current model again
+
+0.24.0 (below) is withdrawn before any program used it: it reads text hidden below a large blank gap (a spam trick) as
+phishing on its own, so a store sale with it scores 99.5% (0.22.0: 32%), and a program would treat such marketing as
+phishing instead of as spam. This commit restores 0.22.0's files unchanged (the same bytes as commit c3cc873). The
+0.24.0 commit stays in the history, as every published commit does, but no program should sync it.
+
+
 ## phish-tiny 0.24.0: learns from a bigger teacher; fewer false alarms on a district's mail
 
 Same architecture, vocabulary and **input format 3** as 0.22.0 (a program running 0.22.0 runs this one unchanged).
