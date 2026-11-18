@@ -1,5 +1,27 @@
 # Changelog
 
+## phish-tiny 0.23.0: catches more phishing; the same false alarms at the 90% line
+
+Same architecture, vocabulary and **input format 3** as 0.22.0 (a program running 0.22.0 runs this one unchanged).
+Trained with more of one district's own de-identified mail (never published), its genuine examples weighted more than
+its phishing or spam. Scores against 0.22.0 (held-out sets, never trained on; lower is better):
+
+| | 0.22.0 @90% | 0.23.0 @90% |
+|---|---|---|
+| Published phishing missed (771 held-out variants) | 18 | 10 |
+| Published genuine called phishing (846 held-out variants) | 5 | 5 |
+| (the same at 50%) | 5 | 11 |
+| A district's held-out genuine called phishing (75) | 7 | 7 |
+| A district's held-out phishing or spam missed (12) | 8 | 5 |
+| Context pairs wrong (55) | 0 | 3 |
+| Platform shares wrong (14) | 2 | 4 |
+| Hand-written and regression cases wrong (33, 16) | 0, 0 | 0, 0 |
+
+Better: published phishing missed (−8 at 90%, outside the resampling interval; a second training seed caught more
+too). Worse: more genuine mail between 50% and 90%, a payroll file shared from outside and a wire request built from
+public information scored lower. Committing it here releases nothing: a program uses it only in a version the
+maintainer has tried and approved.
+
 ## phish-tiny 0.22.0: far fewer false alarms on a district's own mail; misses one compromised-account scam
 
 Same architecture, vocabulary and **input format 3** as 0.21.0 (a program running 0.21.0 runs this one unchanged).
