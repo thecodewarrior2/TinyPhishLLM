@@ -1,5 +1,13 @@
 # Changelog
 
+## phish-tiny 0.23.0 withdrawn: 0.22.0 is the current model again
+
+0.23.0 (below) is withdrawn before any program used it: it calls a shop's reward or "account on hold" lure genuine
+when the sender passes its sender check (two made-up examples: 6% and 0.4%; 0.22.0: 99.7% for both), which the
+held-out sets didn't test. This commit restores 0.22.0's files unchanged (the same bytes as commit 8ba9d9e). The
+0.23.0 commit stays in the history, as every published commit does, but no program should sync it.
+
+
 ## phish-tiny 0.23.0: catches more phishing; the same false alarms at the 90% line
 
 Same architecture, vocabulary and **input format 3** as 0.22.0 (a program running 0.22.0 runs this one unchanged).
