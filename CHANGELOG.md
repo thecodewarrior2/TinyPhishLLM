@@ -1,5 +1,26 @@
 # Changelog
 
+## phish-tiny 0.24.0: learns from a bigger teacher; fewer false alarms on a district's mail
+
+Same architecture, vocabulary and **input format 3** as 0.22.0 (a program running 0.22.0 runs this one unchanged).
+It also learned from a bigger model's scores (Horizon-Labs/phishing-scam-detector-base, Apache-2.0, fine-tuned on
+the public training rows only), and is the average of two such runs' weights. Scores against 0.22.0 (held-out sets,
+never trained on; lower is better):
+
+| | 0.22.0 @90% | 0.24.0 @90% |
+|---|---|---|
+| A district's held-out genuine called phishing (75) | 7 | 3 |
+| A district's held-out phishing or spam missed (12) | 8 | 5 |
+| Published phishing missed (771 held-out variants) | 18 | 16 |
+| Published phishing missed, with 157 newer published examples (930) | 26 | 19 |
+| Published genuine called phishing (846 held-out variants) | 5 | 4 |
+| Context pairs wrong (55) | 0 | 1 |
+| Platform shares wrong (14) | 2 | 2 |
+| Hand-written and regression cases wrong (33, 18) | 0, 0 | 0, 0 |
+
+Both made-up shop lures that withdrew 0.23.0 are caught (99.8% and 99.9%).
+
+
 ## phish-tiny 0.23.0 withdrawn: 0.22.0 is the current model again
 
 0.23.0 (below) is withdrawn before any program used it: it calls a shop's reward or "account on hold" lure genuine
