@@ -1,5 +1,29 @@
 # Changelog
 
+## phish-tiny 0.25.0: also learns from published research collections; fewer missed phishing and district false alarms
+
+Same architecture, vocabulary and **input format 3** as 0.22.0 (a program running 0.22.0 runs this one unchanged). Its
+training adds published research collections of real phishing and genuine mail (people taken out, never published),
+more published shop scams and genuine shop mail, and a district's fourth export (never published); no teacher. One run.
+Scores against 0.22.0 (held-out sets, never trained on; lower is better):
+
+| | 0.22.0 @90% | 0.25.0 @90% |
+|---|---|---|
+| A district's held-out phishing or spam missed (25) | 19 | 12 |
+| A district's held-out genuine called phishing (94) | 13 | 5 |
+| Published phishing missed (954 held-out variants) | 31 | 19 |
+| Published genuine called phishing (861 held-out variants) | 5 | 6 |
+| Research collections' phishing missed (890 held out) | 264 | 30 |
+| Research collections' genuine called phishing (2,235 held out) | 192 | 38 |
+| Context pairs wrong (55) | 0 | 3 |
+| Platform shares wrong (14) | 2 | 3 |
+| Hand-written and regression cases wrong (33, 18) | 0, 0 | 0, 0 |
+
+Both made-up shop lures that withdrew 0.23.0 are caught. Check in a program before it syncs: a made-up newsletter with
+the "text after a large blank gap" layout line scores about 50% (0.22.0: 0.4% for one, 99.9% for another), below a 90%
+line; a made-up genuine account-suspension notice is 91%. Publishing releases nothing.
+
+
 ## phish-tiny 0.24.0 withdrawn: 0.22.0 is the current model again
 
 0.24.0 (below) is withdrawn before any program used it: it reads text hidden below a large blank gap (a spam trick) as
