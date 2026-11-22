@@ -1,5 +1,32 @@
 # Changelog
 
+## phish-tiny 0.26.0: a spam answer of its own; marketing is no longer called phishing
+
+Same architecture, vocabulary and **input format 3** as 0.25.0: no program's copy of the input format changes. New: a
+second output, `spam_logits` (genuine, spam), beside `logits`; `model.json` has `"spam"`. P(spam) = (1 - P(phishing)) x
+softmax(spam_logits)[1]. A program that reads only `logits` runs this model unchanged and gets P(phishing) without
+spam in it; reading the spam answer is each program's own change. Trained from 0.25.0 (three runs averaged), also on
+published research collections of spam (people taken out, never published) and a district's examples (never
+published). At the 65% line, held-out sets never trained on (lower is better):
+
+| | 0.25.0 | 0.26.0 |
+|---|---|---|
+| Synthetic test: spam called phishing at 50% (374) | 272 | 16 |
+| Research collections' spam called phishing at 50% (3,759) | 2,809 | 587 |
+| Research collections' genuine called phishing at 50% (4,072) | 106 | 24 (105 called spam) |
+| Research collections' phishing missed (2,936) | 383 | 280 |
+| A district's held-out phishing or spam missed (188) | 94 | 27 |
+| A district's held-out genuine called phishing (54) | 9 | 10 (4 called spam) |
+| Published phishing missed (954 held-out variants) | 14 | 18 |
+| Published genuine called phishing or spam (834) | 6 | 8 |
+| Spam check set: spam called phishing (23) / phishing missed (6) | 10 / 0 | 0 / 0 |
+| Platform shares, look-alikes, context pairs wrong (14, 24, 55) | 2, 1, 2 | 2, 1, 2 |
+| Hand-written and regression cases wrong (33, 18) | 0, 0 | 0, 0 |
+
+Published phishing missed (+4) and published genuine false alarms (+2) are worse within the resampling interval. A
+program that reads the spam answer should not move mail on it alone: about 2.6% of the collections' genuine mail is
+called spam (most of it real spam in Enron's inboxes). Publishing releases nothing.
+
 ## phish-tiny 0.25.0: also learns from published research collections; fewer missed phishing and district false alarms
 
 Same architecture, vocabulary and **input format 3** as 0.22.0 (a program running 0.22.0 runs this one unchanged). Its

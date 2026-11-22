@@ -1,6 +1,6 @@
 {
  "name": "phish-tiny",
- "version": "0.25.0",
+ "version": "0.26.0",
  "inputFormat": 3,
  "arch": "electra",
  "base": "google/electra-small-discriminator",
@@ -8,15 +8,15 @@
   "genuine",
   "phishing"
  ],
- "trained": "2026-11-19",
+ "trained": "2026-11-22",
  "metrics": {
   "synthetic_test": {
-   "accuracy": 0.9967,
-   "precision": 1.0,
-   "recall": 0.9933,
-   "false_positives": 0,
-   "false_negatives": 5,
-   "n": 1500
+   "accuracy": 0.9867,
+   "precision": 0.9776,
+   "recall": 0.9907,
+   "false_positives": 17,
+   "false_negatives": 7,
+   "n": 1800
   },
   "hand_written": {
    "accuracy": 1.0,
@@ -35,20 +35,49 @@
    "n": 954
   },
   "genuine_lookalikes": {
-   "accuracy": 0.9583,
+   "accuracy": 1.0,
    "precision": 0.0,
    "recall": 0.0,
-   "false_positives": 1,
+   "false_positives": 0,
    "false_negatives": 0,
    "n": 24
   },
   "real_world_genuine_heldout": {
-   "accuracy": 0.9895,
+   "accuracy": 0.9928,
    "precision": 0.0,
    "recall": 0.0,
-   "false_positives": 9,
+   "false_positives": 6,
    "false_negatives": 0,
-   "n": 861
+   "n": 834
+  },
+  "spam": {
+   "synthetic_test": {
+    "spam": 374,
+    "spam_called_phishing": 16,
+    "spam_called_phishing_at_90": 13,
+    "spam_unwanted": 365,
+    "spam_as_spam": 349,
+    "genuine": 676,
+    "genuine_called_spam": 0
+   },
+   "public_heldout": {
+    "spam": 3759,
+    "spam_called_phishing": 587,
+    "spam_called_phishing_at_90": 410,
+    "spam_unwanted": 3573,
+    "spam_as_spam": 2982,
+    "genuine": 4072,
+    "genuine_called_spam": 105
+   },
+   "spam_check": {
+    "spam": 23,
+    "spam_called_phishing": 0,
+    "spam_called_phishing_at_90": 0,
+    "spam_unwanted": 18,
+    "spam_as_spam": 18,
+    "genuine": 7,
+    "genuine_called_spam": 0
+   }
   }
  },
  "config": {
@@ -1840,6 +1869,33 @@
    ],
    "dtype": "f32",
    "offset": 13910504
+  },
+  {
+   "name": "spam_head.weight",
+   "shape": [
+    2,
+    256
+   ],
+   "dtype": "f32",
+   "offset": 13910512
+  },
+  {
+   "name": "spam_head.bias",
+   "shape": [
+    2
+   ],
+   "dtype": "f32",
+   "offset": 13912560
   }
- ]
+ ],
+ "spam": {
+  "output": "spam_logits",
+  "tensor": "spam_head",
+  "labels": [
+   "genuine",
+   "spam"
+  ],
+  "reads": "classifier.out_proj input",
+  "note": "The spam answer (0.26.0): P(spam) = (1 - P(phishing)) x softmax(spam_logits)[1]; P(phishing) comes from \"logits\" as before, and spam is not phishing. A program that reads only \"logits\" runs the model as before."
+ }
 }
