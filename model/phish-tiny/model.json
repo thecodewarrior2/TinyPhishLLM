@@ -1,6 +1,6 @@
 {
  "name": "phish-tiny",
- "version": "0.26.0",
+ "version": "0.27.0",
  "inputFormat": 3,
  "arch": "electra",
  "base": "google/electra-small-discriminator",
@@ -8,14 +8,14 @@
   "genuine",
   "phishing"
  ],
- "trained": "2026-11-22",
+ "trained": "2026-11-23",
  "metrics": {
   "synthetic_test": {
-   "accuracy": 0.9867,
-   "precision": 0.9776,
-   "recall": 0.9907,
-   "false_positives": 17,
-   "false_negatives": 7,
+   "accuracy": 0.9944,
+   "precision": 0.9947,
+   "recall": 0.992,
+   "false_positives": 4,
+   "false_negatives": 6,
    "n": 1800
   },
   "hand_written": {
@@ -43,38 +43,38 @@
    "n": 24
   },
   "real_world_genuine_heldout": {
-   "accuracy": 0.9928,
+   "accuracy": 0.994,
    "precision": 0.0,
    "recall": 0.0,
-   "false_positives": 6,
+   "false_positives": 5,
    "false_negatives": 0,
    "n": 834
   },
   "spam": {
    "synthetic_test": {
     "spam": 374,
-    "spam_called_phishing": 16,
-    "spam_called_phishing_at_90": 13,
-    "spam_unwanted": 365,
-    "spam_as_spam": 349,
+    "spam_called_phishing": 4,
+    "spam_called_phishing_at_90": 3,
+    "spam_unwanted": 371,
+    "spam_as_spam": 367,
     "genuine": 676,
     "genuine_called_spam": 0
    },
    "public_heldout": {
     "spam": 3759,
-    "spam_called_phishing": 587,
-    "spam_called_phishing_at_90": 410,
-    "spam_unwanted": 3573,
-    "spam_as_spam": 2982,
+    "spam_called_phishing": 304,
+    "spam_called_phishing_at_90": 234,
+    "spam_unwanted": 3637,
+    "spam_as_spam": 3327,
     "genuine": 4072,
-    "genuine_called_spam": 105
+    "genuine_called_spam": 90
    },
    "spam_check": {
     "spam": 23,
     "spam_called_phishing": 0,
     "spam_called_phishing_at_90": 0,
-    "spam_unwanted": 18,
-    "spam_as_spam": 18,
+    "spam_unwanted": 19,
+    "spam_as_spam": 19,
     "genuine": 7,
     "genuine_called_spam": 0
    }

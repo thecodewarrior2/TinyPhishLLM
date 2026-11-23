@@ -1,5 +1,30 @@
 # Changelog
 
+## phish-tiny 0.27.0: fewer missed phishing and spam; one known weakness kept
+
+Same architecture, vocabulary, **input format 3** and spam answer as 0.26.0: no program's copy of the input format
+changes. Trained from 0.26.0 (five runs averaged), also on published research collections (people taken out, never
+published) and a district's examples (never published). At the 65% line, held-out sets never trained on (lower is
+better):
+
+| | 0.26.0 | 0.27.0 |
+|---|---|---|
+| Research collections' phishing missed (2,936) | 280 | 236 |
+| Research collections' spam missed (3,759) | 209 | 145 |
+| Research collections' genuine called phishing or spam (4,072) | 110 | 93 |
+| A district's held-out phishing or spam missed (188) | 27 | 18 |
+| A district's newer held-out phishing or spam missed (32) / genuine called phishing (1) | 15 / 1 | 13 / 0 |
+| A district's held-out genuine called phishing (54) | 10 | 9 |
+| Published phishing missed (954) / published genuine called phishing or spam (834) | 18 / 8 | 15 / 7 |
+| Platform shares, look-alikes, context pairs wrong (14, 24, 55) | 2, 1, 2 | 2, 1, 2 |
+| Hand-written cases wrong (33) | 0 | 0 |
+| Regression cases wrong (19) | 1 | 1 |
+
+**Known weakness, released by the maintainer's decision:** one regression case still fails, as it does for 0.26.0: a
+made-up first-time vendor asking to update its bank details for an invoice, its sender verified (DMARC passing), scores
+12.7% phishing (0.26.0: 13.2%). A program should catch a payment-change request from a new sender with its own rules.
+Publishing releases nothing.
+
 ## phish-tiny 0.26.0: a spam answer of its own; marketing is no longer called phishing
 
 Same architecture, vocabulary and **input format 3** as 0.25.0: no program's copy of the input format changes. New: a
