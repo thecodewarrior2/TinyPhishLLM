@@ -1,5 +1,29 @@
 # Changelog
 
+## phish-tiny 0.28.0: catches the new-vendor bank-details case; far fewer missed phishing
+
+Same architecture, vocabulary, **input format 3** and spam answer as 0.27.0: no program's copy of the input format
+changes. Trained from 0.27.0 (five runs averaged), kept close to 0.27.0's answers only where 0.27.0 is right; also
+trained on published research collections (people taken out, never published) and a district's examples (never
+published). At the 65% line, held-out sets never trained on (lower is better):
+
+| | 0.27.0 | 0.28.0 |
+|---|---|---|
+| Research collections' phishing missed (2,936) | 236 | 57 |
+| Research collections' spam missed (3,759) | 145 | 111 |
+| Research collections' genuine called phishing (4,072) | 93 | 86 |
+| A district's held-out phishing or spam missed (188) | 18 | 15 |
+| A district's newer held-out phishing or spam missed (32) / genuine called phishing (1) | 13 / 0 | 12 / 1 |
+| A district's held-out genuine called phishing (54) | 9 | 9 |
+| Published phishing missed (954) / published genuine called phishing (834) | 15 / 7 | 15 / 7 |
+| Platform shares, look-alikes, context pairs wrong (14, 24, 55) | 2, 1, 2 | 0, 1, 0 |
+| Hand-written cases wrong (33) | 0 | 0 |
+| Regression cases wrong (19) | 1 | 0 |
+
+The regression case 0.27.0 failed, a made-up first-time vendor asking to update its bank details for an invoice with its
+sender verified (DMARC passing), now scores 80.8% phishing (0.27.0: 12.7%). Two of the five runs alone still scored it
+under the 65% line, so a program should still catch a payment-change request from a new sender with its own rules.
+
 ## phish-tiny 0.27.0: fewer missed phishing and spam; one known weakness kept
 
 Same architecture, vocabulary, **input format 3** and spam answer as 0.26.0: no program's copy of the input format
