@@ -1,22 +1,22 @@
-# phish-tiny 0.28.0
+# phish-tiny 0.29.0
 
 An ELECTRA-small classifier (google/electra-small-discriminator, 12 layers, 13.5 million parameters) fine-tuned to tell phishing from
 genuine email, from the facts the programs collect (subject, sender name and domain, DMARC result,
-links and their checks) and the email's text with addresses and numbers redacted. It reads input format 3: also what the programs' sender checks found (who the sender's name claims to be and whether the domain is theirs, Reply-To domains that aren't the sender's, the attached files' kinds, failing SPF/DKIM) and text in capitals; a program must build that format's text for it (`model-input.js`, `model.json` `inputFormat`). Trained 2026-11-23
-by TinyPhishLLM's `training/train.py` in two steps, from phish-tiny 0.27.0 (`--init`): on a Kaggle GPU, 2 epochs at learning rate 0.00005 on the training rows without a district's (`--distill 0.8 --distill-where-right`: its phishing answers kept close to 0.27.0's on the rows 0.27.0 gets right, except spam; the rows it gets wrong learned from their labels alone), then on the computer that trains, 1 epoch at 0.00003 on the district's rows and 3,000 other training rows (`training/colab/finish-district.py`, `--distill 0.5 --distill-where-right`); weights stored in 8 bits. The weights of 5 such runs (seeds 7 to 11; cand-k-s7 to cand-k-s11) averaged into one model: each run alone missed lures the average catches.
+links and their checks) and the email's text with addresses and numbers redacted. It reads input format 3: also what the programs' sender checks found (who the sender's name claims to be and whether the domain is theirs, Reply-To domains that aren't the sender's, the attached files' kinds, failing SPF/DKIM) and text in capitals; a program must build that format's text for it (`model-input.js`, `model.json` `inputFormat`). Trained 2026-11-25
+by TinyPhishLLM's `training/train.py`, from phish-tiny 0.28.0 (`--init`), in three runs of five seeds each (7 to 11), every one in two steps: on a Kaggle GPU, 2 epochs at learning rate 0.00005 on the training rows without a district's (`--distill 0.8 --distill-where-right`: its phishing answers kept close to 0.28.0's on the rows 0.28.0 gets right, except spam), then on the computer that trains, 1 epoch at 0.00003 on the district's rows and 3,000 other training rows (`training/colab/finish-district.py`, `--distill 0.5 --distill-where-right`). The runs differ in their data: run "l" adds a company's own mail and its look-alike twins (`make-dataset.js --own-pairs 500`), run "m" what each research and district row asks for as an extra training output (`--label-asks 1`, `train.py --aux 0.5`), run "n" neither. The weights of all 15 runs (cand-l-s7 to s11, cand-m-s7 to s11, cand-n-s7 to s11) averaged into one model ("soup15"); weights stored in 8 bits.
 
-**Training data:** 47727 emails from `training/make-dataset.js`: synthetic ones from its templates, and variants
+**Training data:** 47863 emails from `training/make-dataset.js`: synthetic ones from its templates, and variants
 of two thirds of `training/real-world.jsonl` (phishing and email scams that universities, school groups,
 the FTC, FBI, IRS and others published as warnings, including spear phishing and business email
-compromise; paraphrased, with made-up names; no real email, personal data or bank details), plus 900 rows from a district's own de-identified examples in `training/data/extra/` (never committed or published; each example may be repeated, `make-dataset.js --extra-repeat`). A text longer than 256 tokens is read by its first 192 and its last 62 word pieces (`model.json` `config.headTokens`): a program must cut it the same way.
+compromise; paraphrased, with made-up names; no real email, personal data or bank details), plus 1034 rows from a district's own de-identified examples in `training/data/extra/` (never committed or published; each example may be repeated, `make-dataset.js --extra-repeat`). A text longer than 256 tokens is read by its first 192 and its last 62 word pieces (`model.json` `config.headTokens`): a program must cut it the same way.
 
 **Scores of the exported model**
 
 | Set | Accuracy | Precision | Recall | False alarms | Missed |
 |---|---|---|---|---|---|
-| Synthetic test (1800, same templates, other seed) | 0.9978 | 0.9987 | 0.996 | 1 | 3 |
+| Synthetic test (1800, same templates, other seed) | 0.9983 | 0.9987 | 0.9973 | 1 | 2 |
 | Hand-written (33, not from the templates) | 1.0 | 1.0 | 1.0 | 0 | 0 |
-| Real-world, held out (954: 3 variants of each of 318 published examples never trained on; all phishing) | 0.9864 | - | 0.9864 | - | 13 |
+| Real-world, held out (954: 3 variants of each of 318 published examples never trained on; all phishing) | 0.9843 | - | 0.9843 | - | 15 |
 | Genuine look-alikes (24, hand-written, never trained on; all genuine) | 1.0 | - | - | 0 | - |
 | Real-world genuine, held out (834: 3 variants of each of 278 published genuine emails never trained on) | 0.994 | - | - | 5 | - |
 
@@ -26,12 +26,12 @@ unwanted bulk mail that sells something and doesn't try to steal; it is not phis
 
 | Set | Spam | Called spam (most likely of the three) | Unwanted (spam + phishing at 50%) | Called phishing at 50% | at 90% | Genuine called spam at 50% |
 |---|---|---|---|---|---|---|
-| Synthetic test (same templates, other seed) | 374 | 372 | 373 | 1 | 1 | 0 of 676 |
-| Published research collections, held out (SpamAssassin spam; genuine: SpamAssassin and Enron) | 3759 | 3418 | 3659 | 241 | 186 | 80 of 4072 |
+| Synthetic test (same templates, other seed) | 374 | 373 | 374 | 1 | 1 | 0 of 676 |
+| Published research collections, held out (SpamAssassin spam; genuine: SpamAssassin and Enron) | 3759 | 3445 | 3665 | 220 | 176 | 76 of 4072 |
 | Spam check set (`eval-spam.jsonl`, hand-written, never trained on) | 23 | 19 | 19 | 0 | 0 | 0 of 7 |
 
 Hand-written emails it got wrong: none.
-Held-out real-world examples it missed (any variant): real:calcsic-fall-semester-scheduling, real:diocese-richmond-bishop-gmail-assistance, real:k12-pcat-invoice-pay-today, real:mrsc-hacked-vendor-asks-county-banking, real:pbA-sdsu-enable-mfa-qr-12h, real:pbB-ucla-macbook-ps5-giveaway, real:pcrisk-billing-issue-membership-suspended, real:uthscsa-work-study-pdf, real:utwente-note-late-partner-collection.
+Held-out real-world examples it missed (any variant): real:calcsic-fall-semester-scheduling, real:diocese-richmond-bishop-gmail-assistance, real:gmu-negative-feedback-dispute, real:k12-pcat-invoice-pay-today, real:mrsc-hacked-vendor-asks-county-banking, real:pbA-sdsu-enable-mfa-qr-12h, real:pbB-ucla-macbook-ps5-giveaway, real:pcrisk-billing-issue-membership-suspended, real:uchicago-available-in-meeting, real:uthscsa-work-study-pdf, real:utwente-note-late-partner-collection.
 Genuine look-alikes it called phishing: none.
 Held-out published genuine emails it called phishing (any variant): real:msl-purview-dlp-item-conflicts-policy-genuine, real:rge-honey-paypal-rewards-points-genuine.
 

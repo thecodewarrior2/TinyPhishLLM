@@ -1,5 +1,25 @@
 # Changelog
 
+## phish-tiny 0.29.0: misses fewer phishing; a district's numbers kept
+
+Same architecture, vocabulary, **input format 3** and spam answer as 0.28.0: no program's copy of the input format
+changes. Trained from 0.28.0: fifteen runs (three kinds of training data, five each), averaged into one model; also on
+published research collections (people taken out, never published) and a district's examples (never published). At the
+65% line, held-out sets never trained on (lower is better):
+
+| | 0.28.0 | 0.29.0 |
+|---|---|---|
+| Research collections' phishing missed (2,936) | 57 | 33 |
+| Research collections' genuine called phishing (4,072) | 86 | 77 |
+| Research collections' spam missed (3,759) | 111 | 101 |
+| A district's held-out genuine called phishing (54) / marketing called phishing (133) | 9 / 15 | 9 / 15 |
+| A district's newest held-out marketing called phishing (32) | 3 | 3 |
+| Published phishing missed (954) / published genuine called phishing (834) | 15 / 7 | 16 / 7 |
+| Platform shares, look-alikes, context pairs wrong (14, 24, 55) | 0, 1, 0 | 0, 1, 0 |
+| Hand-written cases wrong (33) / regression cases wrong (19) | 0 / 0 | 0 / 0 |
+
+The made-up first-time vendor asking to update its bank details (DMARC passing) scores 96% phishing (0.28.0: 81%).
+
 ## phish-tiny 0.28.0: catches the new-vendor bank-details case; far fewer missed phishing
 
 Same architecture, vocabulary, **input format 3** and spam answer as 0.27.0: no program's copy of the input format
