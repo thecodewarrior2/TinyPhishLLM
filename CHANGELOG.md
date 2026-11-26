@@ -1,5 +1,31 @@
 # Changelog
 
+## phish-tiny 0.30.0: input format 4 (the facts beyond the email); catches more phishing and spam
+
+**Input format 4: each program must change its own copy of the input format before it syncs this model**
+(`tools/model-input.js`; the references in `model/reference/` are in format 4). Format 4 adds, when a program has them, a
+"context:" line with the facts beyond the email (Gmail's category, unsubscribe and mailer, the organization's history with
+the sender, the thread, how many of its mailboxes got copies, the sender domain's age) and the text of attached documents
+and pictures ("attachment text:", "picture text:"). Without them the text is exactly format 3's. Same architecture,
+vocabulary and spam answer as 0.29.0. Trained from 0.29.0: five runs averaged into one model; also on published research
+collections (people taken out, never published) and a district's examples (never published). At the 65% line, held-out
+sets never trained on (lower is better; "unwanted" is phishing or spam):
+
+| | 0.29.0 | 0.30.0 |
+|---|---|---|
+| Research collections' phishing missed (2,936) | 33 | 26 |
+| Research collections' spam missed (3,759) | 101 | 79 |
+| Research collections' genuine called unwanted (4,072) / of them called phishing | 77 / 8 | 90 / 7 |
+| A district's held-out emails missed (188 / 32 / 33 / 33, four exports) | 14 / 10 / 4 / 5 | 14 / 8 / 2 / 3 |
+| A district's held-out genuine called unwanted (the same four) | 14 / 1 / 1 / 4 | 13 / 1 / 1 / 4 |
+| Published phishing missed (954) / published genuine called phishing (834) | 16 / 7 | 16 / 7 |
+| Context facts, made up (42): missed / genuine called unwanted | 4 / 3 | 2 / 5 |
+| Platform shares, look-alikes, context pairs wrong (14, 24, 55) | 0, 1, 0 | 0, 0, 0 |
+| Hand-written cases wrong (33) / regression cases wrong (19) | 0 / 0 | 0 / 0 |
+
+More of the research collections' genuine mail is called spam (not phishing). The model uses the facts beyond the email to
+catch phishing, but hasn't learned that a long clean history with a sender lowers the risk of the same words.
+
 ## phish-tiny 0.29.0: misses fewer phishing; a district's numbers kept
 
 Same architecture, vocabulary, **input format 3** and spam answer as 0.28.0: no program's copy of the input format
